@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model players {
+  id            Int             @id @default(autoincrement())
+  player_name   String
+  crash_records crash_records[]
+  live_statuses live_statuses[]
+}
+
+model pods {
+  id            Int             @id @default(autoincrement())
+  pod_number    String          @unique
+  stream_url    String?
+  crash_records crash_records[]
+  live_statuses live_statuses[]
+}
+
+model crash_records {
+  id                       Int       @id @default(autoincrement())
+  pod_id                   Int
+  player_id                Int
+  event_timestamp          DateTime  @default(now())
+  ai_detected_injury       Boolean
+  human_verified_injury    Boolean?
+  ai_detected_violation    Boolean
+  human_verified_violation Boolean?
+  video_clip_url           String?
+  pods                     pods      @relation(fields: [pod_id], references: [id])
+  players                  players   @relation(fields: [player_id], references: [id])
+}
+
+model live_statuses {
+  pod_id            Int      @id // Ini adalah PK dan FK
+  pod_status        String
+  camera_status     String
+  current_player_id Int?
+  last_updated      DateTime @updatedAt
+  pods              pods     @relation(fields: [pod_id], references: [id])
+  players           players? @relation(fields: [current_player_id], references: [id])
+}
+
+model users {
+  id            Int      @id @default(autoincrement())
+  username      String   @unique
+  password_hash String
+}

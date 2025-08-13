@@ -1,0 +1,10 @@
+npm install prisma --save-dev
+npm install @prisma/client
+npx prisma init
+npx prisma migrate dev --name "init_mysql"
+npx shadcn-ui@latest init
+npx shadcn@latest add card label input button
+npm install lucide-react
+npm install bcryptjs jsonwebtoken cookies-next
+npm install @types/bcryptjs @types/jsonwebtoken --save-dev
+npm install sonner
