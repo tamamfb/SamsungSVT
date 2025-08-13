@@ -1,21 +1,12 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+
 /* app/globals.css */
 @keyframes bounce-in {
-  0% {
-    transform: scale(0.5) translateY(-100%);
-    opacity: 0;
-  }
-  60% {
-    transform: scale(1.1) translateY(0);
-    opacity: 1;
-  }
-  80% {
-    transform: scale(0.9);
-  }
-  100% {
-    transform: scale(1);
-  }
+  0% { transform: scale(0.5) translateY(-100%); opacity: 0; }
+  60% { transform: scale(1.1) translateY(0); opacity: 1; }
+  80% { transform: scale(0.9); }
+  100% { transform: scale(1); }
 }
 .toast-bounce {
   animation: bounce-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
@@ -26,6 +17,110 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* === CSS UNTUK TOMBOL THEME TOGGLE CUSTOM (UKURAN BARU) === */
+.custom-theme-toggle {
+  position: relative;
+  display: inline-block;
+  width: 70px;  /* <-- Diperkecil dari 90px */
+  height: 34px; /* <-- Diperkecil dari 44px */
+}
+
+.toggle-track {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #87CEEB; /* Sky Blue */
+  border-radius: 34px;
+  transition: background-color 0.4s ease;
+  overflow: hidden;
+}
+
+.toggle-thumb {
+  position: absolute;
+  height: 28px; /* <-- Diperkecil */
+  width: 28px;  /* <-- Diperkecil */
+  left: 3px;    /* <-- Disesuaikan */
+  bottom: 3px;  /* <-- Disesuaikan */
+  background-color: #FFD700; /* Gold (Sun) */
+  border-radius: 50%;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Checked state (Dark Mode) */
+#theme-toggle:checked + .toggle-track {
+  background-color: #000033; /* Dark Navy Blue */
+}
+
+#theme-toggle:checked ~ .toggle-thumb {
+  transform: translateX(36px); /* <-- Disesuaikan */
+  background-color: #E0E0E0; /* Light Gray (Moon) */
+  box-shadow: 0 0 8px #f0f0f0;
+}
+
+/* Elemen di dalam Switch (disesuaikan ukurannya) */
+.sun {
+  position: absolute; top: 4px; left: 4px; width: 26px; height: 26px;
+  background: #FFD700; border-radius: 50%; opacity: 1;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+#theme-toggle:checked + .toggle-track .sun { opacity: 0; transform: scale(0.5); }
+
+.moon {
+  position: absolute; top: 5px; right: 8px; width: 22px; height: 22px;
+  background-color: #E0E0E0; border-radius: 50%; opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  box-shadow: -2px 2px 0 -1px #E0E0E0, -2px 2px 0 0px #b4b4b4;
+}
+#theme-toggle:checked + .toggle-track .moon { opacity: 1; transform: scale(1); }
+
+/* Stars (disesuaikan posisinya) */
+.star { position: absolute; background-color: white; border-radius: 50%; opacity: 0; transition: opacity 0.4s ease; box-shadow: 0 0 4px white; }
+#theme-toggle:checked + .toggle-track .star { opacity: 1; }
+.star-1 { top: 8px; left: 8px; width: 1px; height: 1px; }
+.star-2 { top: 20px; left: 15px; width: 2px; height: 2px; }
+.star-3 { top: 10px; left: 25px; width: 1px; height: 1px; }
+.star-4 { top: 22px; left: 30px; width: 1px; height: 1px; }
+.star-5 { top: 12px; left: 45px; width: 1px; height: 1px; }
+
+/* Clouds & Birds (disesuaikan posisinya) */
+.cloud, .bird { transition: opacity 0.4s ease; }
+.cloud { position: absolute; background-color: #f0f8ff; border-radius: 8px; }
+.cloud-1 { bottom: 0; left: -8px; width: 40px; height: 16px; }
+.cloud-2 { bottom: 4px; right: -12px; width: 50px; height: 20px; }
+
+.bird { position: absolute; background-color: #333; width: 8px; height: 1px; border-radius: 2px; }
+.bird::before, .bird::after { content:''; position: absolute; background-color: #333; width: 5px; height: 1px; border-radius: 2px; }
+.bird::before { top: -1.5px; left: 1.5px; transform: rotate(30deg); }
+.bird::after { top: 1.5px; left: 1.5px; transform: rotate(-30deg); }
+.bird-1 { top: 8px; right: 18px; transform: scale(0.8); }
+.bird-2 { top: 14px; right: 28px; transform: scale(0.6); }
+.bird-3 { top: 7px; right: 35px; transform: scale(0.7); }
+
+#theme-toggle:checked + .toggle-track .cloud,
+#theme-toggle:checked + .toggle-track .bird { opacity: 0; }
+
+/* Tambahan: transisi halus semua elemen toggle */
+.toggle-track,
+.toggle-thumb,
+.sun,
+.moon,
+.star,
+.cloud,
+.bird {
+  transition: all 0.4s ease;
+}
+
+/* Menambahkan transisi warna yang smooth untuk dark/light mode */
+body, header, main, .card, button {
+  transition-property: color, background-color, border-color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -140,10 +235,6 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+  * { @apply border-border outline-ring/50; }
+  body { @apply bg-background text-foreground; }
 }

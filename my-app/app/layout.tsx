@@ -1,7 +1,10 @@
+// app/layout.tsx
+
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { Toaster } from 'sonner'; // <-- Impor Toaster
+import { Toaster } from 'sonner';
+import { ThemeProvider } from 'next-themes'; // <-- 1. Impor ThemeProvider
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,10 +19,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    // 2. Tambahkan suppressHydrationWarning di sini
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        {children}
-        <Toaster position="top-right" richColors /> {/* <-- Tambahkan ini */}
+        {/* 3. Bungkus semua yang ada di dalam body dengan ThemeProvider */}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+          <Toaster 
+            position="top-right" 
+            richColors 
+            toastOptions={{ classNames: { toast: 'toast-bounce' } }}
+          />
+        </ThemeProvider>
       </body>
     </html>
   );

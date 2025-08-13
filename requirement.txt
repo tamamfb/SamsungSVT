@@ -8,3 +8,9 @@ npm install lucide-react
 npm install bcryptjs jsonwebtoken cookies-next
 npm install @types/bcryptjs @types/jsonwebtoken --save-dev
 npm install sonner
+npx shadcn-ui@latest add card button
+npm install swiper
+npm install next-themes
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+npx shadcn@latest add table input select pagination
